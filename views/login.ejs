@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        /* Adicione aqui seu CSS */
+    </style>
+</head>
+
+<body>
+    <header>
+        <%- include('./navbarLogin.ejs', { activePage: 'login' }) %>
+    </header>
+
+    <div class="content">
+        <!-- Formulário de login -->
+        <form action="/login" method="POST">
+            <h1>Faça seu login!</h1>
+            <div class="caixa">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="E-mail" required>
+                <label for="senha">Senha</label>
+                <input type="password" name="senha" id="senha" placeholder="Senha" required>
+                <button type="submit">Entrar</button>
+                <a href="#">Esqueci minha senha</a>
+                <% if (typeof errorMessage !== 'undefined') { %>
+                    <div class="error-message">
+                        <p><%= errorMessage %></p>
+                    </div>
+                <% } %>
+            </div>
+        </form>
+
+        <!-- Imagem ao lado do formulário -->
+        <div class="contate">
+            <img src="/img/aapm_logo_branca.png" alt="Imagem ao lado do formulário">
+            <a href="https://web.whatsapp.com/" target="_blank">
+                <button class="transparent-button">Contate-nos</button>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <%- include('./footer.ejs', { activePage: 'login' }) %>
+    </footer>
+</body>
+
+</html>
+
+<!--CSS-->
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background: linear-gradient(90deg, #000103 0%, #013a91 100%);
+        margin: 0;
+        width: 100%;
+    }
+
+    .error-message {
+        color: red;
+        font-size: 25px;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .content {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 50px;
+    }
+
+    form {
+        width: 50%;
+        max-width: 500px;
+        background-color: #fff;
+        padding: 30px;
+        margin-top: 100px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .caixa p {
+        font-size: 20px;
+        padding-bottom: 10px;
+        margin: 0;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+        width: 100%;
+        padding: 20px;
+        margin-bottom: 15px;
+        border: 1.5px solid #000000;
+        border-radius: 8px;
+        box-sizing: border-box;
+        font-size: 20px;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        padding: 18px;
+        border: none;
+        border-radius: 8px;
+        background-color: #005089;
+        color: #fff;
+        cursor: pointer;
+        font-size: 20px;
+        font-weight: bold;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #041b5a;
+    }
+
+    .contate {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-left: 50px;
+    }
+
+    .contate img {
+        max-width: 70%;
+        height: auto;
+        margin-bottom: 20px;
+        margin-right: 70px;
+        margin-left: 70px;
+        margin-top: 150px;
+    }
+
+    .transparent-button {
+        background-color: transparent;
+        border: 2px solid #fff;
+        color: #fff;
+        margin-top: 20px;
+        padding: 40px 220px;
+        font-size: 30px;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .transparent-button:hover {
+        background-color: #fff;
+        color: #005089;
+    }
+</style>

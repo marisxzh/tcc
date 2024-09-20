@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>teste</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+    <div class="row flex-nowrap">
+        <%- include('./navbar.ejs', { activePage: 'home' }) %>
+      </div>
+
+      <h1>home</h1>
+</body>
+<footer>
+    <!--Rodapé-->
+    <div class="footer">
+        <p>&copy; 2024 TCC. Todos os direitos reservados.</p>
+    </div>
+</footer>
+</html>
+<style>
+
+.footer {  /*Rodapé*/
+    background-color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    color: #333;
+    font-size: 0.9em;
+}
+
+.footer p { /*Texto do Rodapé*/
+    margin: 0;
+}
+
