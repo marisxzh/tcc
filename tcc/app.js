@@ -7,22 +7,21 @@ const session = require('express-session');
 const app = express();
 const port = process.env.PORT || 3001;
 
-//criando a conexão com o banco
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'aapm'
+
+const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
+const db = mysql.createPool({
+host: process.env.DB_HOST,
+user: process.env.DB_USERNAME,
+password: process.env.DB_PASSWORD,
+database: process.env.DB_DBNAME,
+waitForConnections: true,
+connectionLimit: 10,
+queueLimit: 0
 });
 
-//conectando com o banco
-db.connect((error) => {
-  if (error) {
-    console.error('Erro ao conectar ao MySQL:', error)
-  } else {
-    console.log("Conectado ao MySQL")
-  }
-});
+
+
 
 // CONFIGURA A SESSÃO DO USUÁRIO
 app.use(session({
@@ -39,10 +38,6 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // Outras configurações e rotas
-
-app.listen(port, () => {
-  console.log(`Servidor iniciado em http://localhost:${port}`);
-});
 
 
 app.use(bodyParser.urlencoded({ extended: true }))
