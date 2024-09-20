@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Usuário</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  <link rel="stylesheet" href="font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="/public/style/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+    
+</header>
+
+<body>
+  <div class="container-fluid">
+    <div class="row flex-nowrap">
+      <%- include('./navbar.ejs', { activePage: 'infoLivro' }) %>
+    </div>
+    <div class="top">
+        <a href="outra-pagina.html" class="redirect-button">Informações do livro</a>
+    </div>
+    <form>
+        <div class="form-container">
+            <div class="form-column left-column">
+                <label for="field3">Título:</label>
+                <input type="text" id="field3" name="field3" value="<%= indicacao.titulo%>" readonly>
+                <label for="field3">Autor:</label>
+                <input type="text" id="field3" name="field3" value="<%= indicacao.autor%>" readonly>
+                <label for="field3">Gênero:</label>
+                <input type="text" id="field3" name="field3" value="<%= indicacao.genero%>" readonly>
+                <label for="field4">Descrição:</label>
+                <input type="text" id="field4" name="field4" value="<%= indicacao.descricao%>" readonly>
+            </div>
+            <div class="form-column right-column">
+            
+                   
+                    <div class="form-field">
+                        <label for="field12">Usuário</label>
+                        <input type="text" id="field12" name="field12" value="<%= indicacao.nome %>" readonly>
+                    
+                        <label for="field11">Email:</label>
+                        <input type="text" id="field11" name="field11" value="<%= indicacao.email %>" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="save-button">Salvar</button>
+            <button type="button" class="delete-button">Excluir</button>
+        </div>
+    </form>
+  </div>
+
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"
+  ></script>
+</body>
+<footer>
+  <%- include('./footer.ejs', { activePage: 'infoLivro' }) %>
+</footer>
+</html>
+
+
+<style>
+html {
+    height: 100%;              /* for the page to take full window height */
+    box-sizing: border-box;    /* to have the footer displayed at the bottom of the page without scrolling */
+}
+
+
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #193361;
+    color: #ffffff;
+    padding: 0;
+    position: relative;
+    min-height: 100%;  
+    padding-bottom: 6rem; 
+    overflow-x: hidden;
+    }
+    
+/* Estilo para o botão de redirecionamento */
+.top {
+    position: absolute; /* Permite posicionamento absoluto */
+    top: 120px; /* Margem superior de 120px */
+    left: 20px; /* Margem esquerda de 20px */
+}
+
+.redirect-button {
+    display: block; /* Faz com que o botão use o layout de bloco para margin */
+    margin-top: 40px; /* Ajuste o valor para mover o botão para baixo ou para cima */
+    margin-left: 250px; /* Ajuste o valor para mover o botão para a direita ou para a esquerda */
+    padding: 10px 20px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 30px;
+    font-weight: bold;
+    background-color: #193361;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+.redirect-button:hover {
+    background-color: #1e3f77; /* Cor de fundo escura ao passar o mouse */
+    border-color: #1e3f77; /* Cor da borda escura ao passar o mouse */
+    transform: scale(1.05); /* Aumenta ligeiramente o tamanho do botão ao passar o mouse */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adiciona uma sombra para destacar o botão */
+}
+
+/* Estilos para o formulário */
+form {
+    margin-top: 00px;
+    margin-left: 300px;
+    max-width: 1200px; /* Define uma largura máxima para o formulário */
+    padding: 20px;
+    background-color: #193361;
+    padding-right: 20px; /* Ajuste para a direita */
+    padding-left: 70px; /* Ajuste para a esquerda */
+    border-radius: 8px; /* Adiciona bordas arredondadas ao formulário */
+}
+
+.form-container {
+    margin-top: 150px;
+    margin-right: 100px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.form-column {
+    width: 45%; /* Ajusta a largura das colunas */
+}
+
+/* Estilo para os campos da coluna da esquerda */
+.form-column.left-column input {
+    margin-top: 4px; /* Ajusta a margem superior dos campos */
+    background-color: #ffffff; /* Cor de fundo branca */
+    color: #000000; /* Cor do texto dos campos */
+    height: 50px; /* Define a altura dos campos para combinar com o campo COD */
+    text-align: left; /* Garante que o texto esteja alinhado à esquerda */
+    padding: 15px; /* Ajusta o padding interno dos campos */
+    box-sizing: border-box; /* Inclui padding e border no cálculo da largura total */
+}
+
+/* Estilo específico para o campo de Descrição */
+.form-column.left-column #field4 {
+    height: 190px; /* Mantém a altura original do campo Descrição */
+    line-height: 1.5; /* Ajusta a altura da linha para alinhamento vertical do texto */
+}
+
+/* Estilo para os campos da coluna da direita */
+.form-column.right-column input {
+    height: 50px; /* Define a altura dos campos */
+    padding: 15px; /* Ajusta o padding interno dos campos */
+    box-sizing: border-box; /* Inclui padding e border no cálculo da largura total */
+}
+
+/* Estilo para a linha de campos */
+.form-row {
+    display: flex;
+    justify-content: space-between; /* Espaça os campos dentro da linha */
+    margin-bottom: 15px; /* Espaço abaixo da linha de campos */
+}
+
+/* Estilo para os campos dentro da linha */
+.form-field {
+    flex: 1; /* Permite que os campos dentro da linha se ajustem igualmente */
+    margin-right: 40px; /* Espaço à direita dos campos */
+}
+
+/* Remove o espaço à direita do último campo */
+.form-field:last-child {
+    margin-right: 0;
+}
+
+/* Estilo para as colunas do formulário */
+.form-column label {
+    display: block;
+    font-weight: bold;
+    color: #ffffff; /* Define a cor das etiquetas */
+}
+
+/* Estilo para os campos de input e seleção */
+.form-column input,
+.form-column select {
+    width: 100%; /* Largura total dos campos */
+    padding: 15px; /* Aumenta o padding interno dos campos, o que aumenta a altura visual */
+    margin-bottom: 15px; /* Espaço abaixo dos campos */
+    border: 1px solid #193361; /* Cor da borda */
+    border-radius: 4px; /* Bordas arredondadas */
+    font-size: 18px; /* Aumenta o tamanho da fonte */
+    background-color: #ffffff; /* Cor de fundo dos campos */
+    box-sizing: border-box; /* Inclui padding e border no cálculo da largura total */
+    height: auto; /* Permite que a altura se ajuste conforme o padding e conteúdo */
+}
+
+/* Estilo para o campo de seleção */
+.form-column select {
+    background-color: #ffffff; /* Cor de fundo branca para o campo de seleção */
+    color: #000000; /* Cor do texto preta para o campo de seleção */
+}
+
+.form-column select option {
+    background-color: #ffffff; /* Cor de fundo branca para as opções do campo de seleção */
+    color: #000000; /* Cor do texto das opções */
+}
+
+/* Estilo para os botões */
+.form-actions {
+    display: flex;
+    justify-content: flex-end; /* Alinha os botões à direita */
+    gap: 15px; /* Espaço entre os botões */
+    margin: 2px 100px; /* Margem superior e inferior */
+}
+
+.form-actions button {
+    padding: 10px 30px;
+    border: 2px solid transparent; /* Borda transparente para uniformidade */
+    border-radius: 4px;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #333333; /* Cor de fundo escura para contraste */
+    transition: background-color 0.3s, border-color 0.3s; /* Transição suave para efeitos de hover */
+}
+
+.form-actions .save-button {
+    background-color: #193361; /* Cor de fundo para o botão Salvar */
+    color: #ffffff;
+    border-color: #e9e9e9; /* Borda clara para o botão Salvar */
+}
+
+.form-actions button:hover {
+    background-color: #ffffff; /* Muda o fundo para branco ao passar o mouse */
+    color: #193361; /* Muda a cor do texto para a cor de fundo do formulário */
+}
+.form-actions .delete-button {
+    background-color: #193361; /* Cor de fundo para o botão Excluir */
+    color: #ffffff;
+    border-color: #e9e9e9; /* Borda clara para o botão Excluir */
+}
+
+.form-actions button:hover {
+    background-color: #ffffff; /* Muda o fundo para branco ao passar o mouse */
+    color: #193361; /* Muda a cor do texto para a cor de fundo do formulário */
+}
+</style>
