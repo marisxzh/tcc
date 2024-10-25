@@ -40,14 +40,6 @@ queueLimit: 0
 //   database: 'aapm'
 //});
 
-// VERIFICA SE A CONEXÃO FOI REALIZADA COM SUCESSO
-db.connect((error) => {
-    if (error) {
-        console.error('Erro ao conectar ao MySQL:', error);
-    } else {
-        console.log("Conectado ao MySQL!");
-    }
-});
 
 // CONFIGURA A SESSÃO DO USUÁRIO
 app.use(session({
@@ -4168,10 +4160,7 @@ app.get(['/ocorrenciasMateriaisAdm'], (req, res) => {
 
 
 
-  // INICIALIZA O SERVIDOR NODE.JS
-app.listen(port, () => {
-    console.log(`Servidor iniciado em http://localhost:${port}`);
-});
+
 // ROTA DE SAÍDA
 app.get('/sair', (req, res) => {
     req.session.destroy((err) => {
