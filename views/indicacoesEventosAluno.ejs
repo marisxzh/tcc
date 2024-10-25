@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indicações de Eventos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="icon" href="./img/favicon-32x32.png" type="image/x-icon">
+    <style>
+        /* Add your existing styles here */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #003366;
+            color: white;
+            overflow-x: hidden;
+        }
+    
+        .container {
+            min-height: calc(100vh - 60px);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+    
+        .titulo {
+            border-bottom: 3px solid white;
+            margin-bottom: 20px;
+            padding: 24px;
+            text-align: center;
+            color: #fff;
+        }
+    
+        .titulo h1 {
+            margin: 0;
+            font-weight: bold;
+            font-size: 36px;
+        }
+    
+        .botao-indicacao-pesquisa {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+    
+        .adicionar-indicacao {
+            height: 50px;
+            font-size: 20px;
+            padding: 2px 20px;
+            background: none;
+            color: #fff;
+            border-radius: 10px;
+            border: 2px solid #ffffff;
+            transition: 0.6s;
+            margin-bottom: 10px;
+        }
+    
+        .adicionar-indicacao:hover {
+            background-color: #2d3f52;
+            color: #fff;
+            border: 2px solid white;
+        }
+    
+        .search-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
+    
+        .search-bar input {
+            padding: 25px;
+            border-radius: 5px 0 0 5px;
+            border: none;
+            width: 200px;
+            height: 30px;
+            font-size: 16px;
+        }
+    
+        .search-icon-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: rgb(151, 151, 151);
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+        }
+    
+        .search-icon-box i {
+            color: #ffffff;
+        }
+    
+        .search-icon-box:hover {
+            background-color: rgb(94, 94, 94);
+        }
+    
+        .lista-evento {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            color: #003366;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    
+        .titulo-evento {
+            font-weight: bold;
+            font-size: 18px;
+            flex: 1;
+        }
+    
+        .evento-item {
+            flex: 1;
+        }
+    
+        .botao-ver {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+    
+        .botao-ver:hover {
+            background-color: #002244;
+        }
+    
+        .sem-resultados {
+            text-align: center;
+            color: #ffffff;
+        }
+    
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .botao-indicacao-pesquisa {
+                flex-direction: column; /* Empilha os elementos verticalmente */
+                align-items: center; /* Centraliza os elementos */
+            }
+    
+            .adicionar-indicacao {
+                width: 100%;
+                max-width: 300px; /* Limita a largura do botão em telas menores */
+            }
+    
+            .search-bar {
+                width: 100%;
+                max-width: 300px; /* Limita a largura da barra de pesquisa */
+            }
+        }
+    </style>
+    
+</head>
+
+<body>
+    <header>
+        <%- include('./navbarAluno.ejs', { activePage: 'indicacoesEventosAluno' }) %>
+    </header>
+
+    <main class="container">
+        <div class="titulo">
+            <h1>Indicações de Eventos</h1>
+        </div>
+
+        <div class="botao-indicacao-pesquisa">
+            <form action="/indicarEventosAluno" method="GET">
+                <button class="adicionar-indicacao" id="adicionar-indicacao">Indicar Evento</button>
+            </form>
+            <form action="/pesquisarIndicacaoEventoAluno" method="GET">
+                <div class="search-bar">
+                    <input type="text" id="search-input" name="pesquisarLivro" placeholder="Pesquisar">
+                    <button type="submit" class="search-icon-box">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <% if (indicacao.length === 0) { %>
+            <div class="sem-resultados">
+                <p>A pesquisa não correspondeu a nenhuma Indicação.</p>
+            </div>
+        <% } else { %>
+            <% indicacao.forEach(indicacao => { %>
+                <div class="lista-evento">
+                    <span class="titulo-evento">
+                        <%= indicacao.nome_evento %>
+                    </span>
+                    <div class="evento-item">
+                        <span class="evento-details">
+                            <% if (indicacao.status_indicacao === 0) { %>
+                                Pendente
+                            <% } else if (indicacao.status_indicacao === 1) { %>
+                                Aceita
+                            <% } else if (indicacao.status_indicacao === 2) { %>
+                                Rejeitada
+                            <% } %>
+                        </span>
+                    </div>
+                    <form action="/infoIndicacaoEventoAluno" method="GET">
+                        <input type="hidden" name="codIndicacaoEvento" value="<%= indicacao.cod_evento %>">
+                        <button class="botao-ver" type="submit">Detalhes</button>
+                    </form>
+                </div>
+            <% }); %>
+        <% } %>
+    </main>
+
+    <footer>
+        <%- include('./footer.ejs', { activePage: 'indicacoeseventoAdm' }) %>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitações de Patrimônios</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="icon" href="./img/favicon-32x32.png" type="image/x-icon">
+    <style>
+        /* Add your existing styles here */
+        nav{
+            position: relative;
+            z-index: 1000;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #003366;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            min-height: calc(100vh - 60px);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px; /* Adicionando padding */
+        }
+
+        .titulo {
+            border-bottom: 3px solid white;
+            margin-bottom: 20px;
+            padding: 24px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .titulo h1 {
+            margin: 0;
+            font-weight: bold;
+            font-size: 36px;
+        }
+
+        .botao-indicacao-pesquisa {
+            display: flex;
+            justify-content: center; /* Centraliza os botões horizontalmente */
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .adicionar-indicacao {
+            height: 50px;
+            font-size: 20px;
+            padding: 2px 20px;
+            background: none;
+            color: #fff;
+            border-radius: 10px;
+            border: 2px solid #ffffff;
+            transition: 0.6s;
+            margin: 0 10px; /* Espaçamento entre os botões */
+        }
+
+        .adicionar-indicacao:hover {
+            background-color: #2d3f52;
+            color: #fff;
+            border: 2px solid white;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .search-bar input {
+            padding: 25px;
+            border-radius: 5px 0 0 5px;
+            border: none;
+            width: 200px;
+            height: 30px;
+            font-size: 16px;
+        }
+
+        .search-icon-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: rgb(151, 151, 151);
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+        }
+
+        .search-icon-box i {
+            color: #ffffff;
+        }
+
+        .search-icon-box:hover {
+            background-color: rgb(94, 94, 94);
+        }
+
+        .lista-materiais {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            color: #003366;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .titulo-materiais {
+            font-weight: bold;
+            font-size: 18px;
+            flex: 1;
+        }
+
+        .materiais-item {
+            flex: 1;
+        }
+
+        .botao-ver {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .botao-ver:hover {
+            background-color: #002244;
+        }
+
+        .sem-resultados {
+            text-align: center;
+            color: #ffffff;
+        }
+
+        /* Media Queries */
+        @media (min-width: 768px) {
+            .botao-indicacao-pesquisa {
+                flex-direction: row; /* Volta para linha em telas maiores */
+                justify-content: space-between; /* Espaçamento entre os elementos */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .search-bar {
+                margin-top: 10px;
+                justify-content: center; /* Centraliza a barra de pesquisa */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <%- include('./navbarAluno.ejs', { activePage: 'solicitacoesAluno' }) %>
+    </header>
+
+    <main class="container">
+        <div class="titulo">
+            <h1>Solicitações de Patrimônios</h1>
+        </div>
+
+        <div class="botao-indicacao-pesquisa">
+            <form action="/solicitarPatrimoniosAluno" method="GET">
+                <button class="adicionar-indicacao" id="adicionar-indicacao">Solicitar Patrimônio</button>
+            </form>
+            <form action="/pesquisarSolicitacaoPatrimonioAluno" method="GET">
+                <div class="search-bar">
+                    <input type="text" id="search-input" name="pesquisarPatrimonio" placeholder="Pesquisar">
+                    <button type="submit" class="search-icon-box">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <% if (solicitacao.length === 0) { %>
+            <div class="sem-resultados">
+                <p>A pesquisa não correspondeu a nenhuma Solicitação.</p>
+            </div>
+        <% } else { %>
+            <% solicitacao.forEach(solicitacao => { %>
+                <div class="lista-materiais">
+                    <span class="titulo-materiais">
+                        <%= solicitacao.nome_patrimonio %>
+                    </span>
+                    <div class="materiais-item">
+                        <span class="materiais-details">
+                            Status: <%= solicitacao.status_patrimonio === 1 ? 'Solicitação Aceita' : 'solicitação Pendente' %>
+                        </span>
+                    </div>
+                    <form action="/InfoSolicitacaoPatrimonioAluno" method="GET">
+                        <input type="hidden" name="codSolicitacaoPatrimonio" value="<%= solicitacao.cod_patrimonio %>">
+                        <button class="botao-ver" type="submit">Detalhes</button>
+                    </form>
+                </div>
+            <% }); %>
+        <% } %>
+    </main>
+
+    <footer>
+        <%- include('./footer.ejs', { activePage: 'solicitacoesAluno' }) %>
+    </footer>
+</body>
+
+</html>

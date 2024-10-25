@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estoque de Camisetas</title>
+    <link rel="icon" href="./img/favicon-32x32.png" type="image/x-icon">
+ 
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: linear-gradient(rgba(0, 13, 56, 0.5), rgba(0, 13, 56, 0.5)), url('./img/foto_fundo.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+            max-width: 100%;
+            margin-right: 400px;
+            margin-left: 400px;
+          
+            overflow-y: auto;
+        }
+
+      
+        
+
+        .titulo {
+            border-bottom: 3px solid white;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #fff;
+            
+        }
+
+        .titulo h1 {
+            font-weight: bold;
+            font-size: 36px;
+            padding: 20px;
+           
+        }
+
+        .botao-indicacao-pesquisa {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .adicionar-indicacao {
+            height: 50px;
+            font-size: 20px;
+            padding: 2px 20px;
+            background: none;
+            color: #fff;
+            border-radius: 10px;
+            border: 2px solid #ffffff;
+            transition: 0.6s;
+            margin-bottom: 10px;
+        }
+
+        .adicionar-indicacao:hover {
+            background-color: #2d3f52;
+            color: #fff;
+            border: 2px solid white;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .search-bar input {
+            padding: 25px;
+            border-radius: 5px 0 0 5px;
+            border: none;
+            width: 200px;
+            height: 30px;
+            font-size: 16px;
+        }
+
+        .search-icon-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: rgb(151, 151, 151);
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+        }
+
+        nav{
+
+
+        position: relative;
+        z-index: 1000;
+        }
+
+        .search-icon-box i {
+            color: #ffffff;
+        }
+
+        .search-icon-box:hover {
+            background-color: rgb(94, 94, 94);
+        }
+
+        .list-group {
+            margin-bottom: 20px;
+        }
+
+        .list-group-item {
+            background-color: #ffffff;
+            color: #003366;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            transition: background-color 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .list-group-item:hover {
+            background-color: #e9ecef;
+        }
+
+        .botao-ver {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .botao-ver:hover {
+            background-color: #002244;
+        }
+
+        @media (max-width: 768px) {
+            .botao-indicacao-pesquisa {
+                flex-direction: column;
+            }
+
+            .adicionar-indicacao,
+            .search-bar {
+                width: 100%;
+            }
+
+            .search-bar input {
+                width: calc(100% - 50px);
+                font-size: 14px;
+            }
+
+            .list-group-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .botao-ver {
+                margin-top: 10px;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .titulo h1 {
+                font-size: 28px;
+            }
+
+            .adicionar-indicacao {
+                font-size: 16px;
+                padding: 5px 15px;
+            }
+
+            .search-bar input {
+                font-size: 14px;
+            }
+
+            .list-group-item {
+                padding: 10px;
+            }
+
+            .botao-ver {
+                font-size: 14px;
+                padding: 8px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <%- include('./navbar.ejs', { activePage: 'estoqueAdm' }) %>
+    </header>
+
+    <div class="container">
+        <div class="titulo">
+            <h1>Estoque de camisetas</h1>
+        </div>
+
+        <div class="botao-indicacao-pesquisa">
+            <form action="/adicionarCamisetaAdm" method="GET">
+                <button class="adicionar-indicacao" id="adicionar-indicacao">Cadastrar Camiseta</button>
+            </form>
+            <form action="/pesquisarCamisetaAdm" method="GET">
+                <div class="search-bar">
+                    <input type="text" id="search-input" name="pesquisa" placeholder="Pesquisar">
+                    <button type="submit" class="search-icon-box">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="list-group">
+            <% if (estoque.length === 0) { %>
+            <div class="sem-resultados">
+                <p>Não há camisetas cadastradas no estoque.</p>
+            </div>
+            <% } else { %>
+            <% estoque.forEach((estoque) => { %>
+            <div class="list-group-item">
+                <div>
+                    <h5 class="mb-1"><%= estoque.modelo_camiseta %></h5>
+                    <small>Estoque: <%= estoque.quantidade %></small>
+                </div>
+                <form action="/infoCamisetaAdm" method="GET">
+                    <input type="hidden" name="cod_camiseta" value="<%= estoque.cod_camiseta %>">
+                    <button class="botao-ver" type="submit">Ver</button>
+                </form>
+            </div>
+            <% }); %>
+            <% } %>
+        </div>
+    </div>
+
+    <footer>
+        <%- include('./footer.ejs', { activePage: 'estoqueAdm' }) %>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+1QKtv3Rn7W3mgPxhU9K/ScQsAP7W3HibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>

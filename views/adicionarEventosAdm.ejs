@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário de Eventos</title>
+    <link rel="icon" href="./img/favicon-32x32.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estilos básicos e layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: linear-gradient(rgba(0, 13, 56, 0.5), rgba(0, 13, 56, 0.5)), url('./img/foto_fundo.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 1;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 9999;
+        }
+
+        .container {
+            display: flex;
+            width: 50%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 100px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .calendar {
+            flex: 2;
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 10px;
+            margin-right: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-form {
+            flex: 1;
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .titulo {
+            border-bottom: 3px solid white;
+            text-align: center;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .event-form button {
+            display: flex;
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #003366;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .event-form button:hover {
+            background-color: rgb(0, 12, 26);
+        }
+
+        #selected-date {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+            color: #003366;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 2px solid #003366;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navigation button {
+            background-color: #003366;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .navigation button:hover {
+            background-color: #011325;
+        }
+
+        .event-form h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .titulo-evento {
+            color: #003366;
+            font-size: 18px;
+            display: flex;
+        }
+
+        .titulo-detalhe {
+            color: #888;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: block;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        #month-year {
+            font-size: 20px;
+            color: #333;
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            font-weight: bold;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .weekday {
+            padding: 6px;
+            font-size: 12px;
+            background-color: #e9ecef;
+            border: 1px solid #ccc;
+            overflow: hidden;
+        }
+
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-auto-rows: 60px;
+            gap: 1px;
+            text-align: center;
+        }
+
+        .day {
+            padding: 8px;
+            border-radius: 5px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .day.empty {
+            background-color: #f9f9f9;
+        }
+
+        .day:hover {
+            background-color: #f0f0f0;
+            border-color: #bbb;
+        }
+
+        .day.event:hover {
+            background-color: #e0e0e0;
+            border-color: #ccc;
+        }
+
+        /* Estilos para os inputs */
+        .input-container {
+            margin-bottom: 15px;
+        }
+
+        .input-container label {
+            display: block;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #333;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        p {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .input-field:focus {
+            border-color: #003366;
+            outline: none;
+        }
+
+        .input-field::placeholder {
+            color: #888;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .calendar {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            header {
+                z-index: 9999;
+            }
+        }
+    </style>
+</head>
+
+<header>
+    <%- include('./navbar.ejs', { activePage: 'adicionarEventosAdm' }) %>
+</header>
+<body>
+    <div class="titulo">
+        <h1>Adicionar Eventos</h1>
+    </div>
+    <div class="container">
+        <div class="calendar" id="calendar">
+            <div class="navigation">
+                <button id="prev-month" aria-label="Mês anterior">&#10094;</button>
+                <div id="month-year"></div>
+                <button id="next-month" aria-label="Próximo mês">&#10095;</button>
+            </div>
+            <div class="weekdays">
+                <div class="weekday">Dom</div>
+                <div class="weekday">Seg</div>
+                <div class="weekday">Ter</div>
+                <div class="weekday">Qua</div>
+                <div class="weekday">Qui</div>
+                <div class="weekday">Sex</div>
+                <div class="weekday">Sáb</div>
+            </div>
+            <div class="days" id="days"></div>
+            <div id="selected-date">Nenhuma</div>
+        </div>
+        <div class="event-form">
+            <h3>Detalhes do Evento</h3>
+            <div class="input-container">
+                <label for="event-description">Descrição do Evento:</label>
+                <input type="text" id="event-description" class="input-field" placeholder="Descrição do evento" required>
+            </div>
+            <div class="input-container">
+                <label for="event-location">Local do Evento:</label>
+                <input type="text" id="event-location" class="input-field" placeholder="Local do evento" required>
+            </div>
+            <div class="input-container">
+                <label for="event-time">Horário do Evento:</label>
+                <input type="time" id="event-time" class="input-field" required>
+            </div>
+            <div class="input-container">
+                <label for="event-details">Detalhes do Evento:</label>
+                <textarea id="event-details" class="input-field" placeholder="Detalhes do evento" required></textarea>
+            </div>
+            <button id="add-event">Adicionar Evento</button>
+        </div>
+    </div>
+
+    <script>
+        const daysContainer = document.getElementById('days');
+        const monthYearElement = document.getElementById('month-year');
+        const selectedDateElement = document.getElementById('selected-date');
+
+        let currentDate = new Date();
+
+        function renderCalendar() {
+            daysContainer.innerHTML = '';
+            monthYearElement.textContent = `${currentDate.toLocaleString('default', { month: 'long' })} ${currentDate.getFullYear()}`;
+
+            const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+            const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+            const totalDays = lastDayOfMonth.getDate();
+            const startingDay = firstDayOfMonth.getDay();
+
+            for (let i = 0; i < startingDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.classList.add('day', 'empty');
+                daysContainer.appendChild(emptyDay);
+            }
+
+            for (let day = 1; day <= totalDays; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.classList.add('day');
+                dayElement.textContent = day;
+
+                dayElement.addEventListener('click', () => {
+                    selectedDateElement.textContent = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                });
+
+                daysContainer.appendChild(dayElement);
+            }
+        }
+
+        document.getElementById('prev-month').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        });
+
+        document.getElementById('next-month').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        });
+
+        // Adiciona evento
+        document.getElementById('add-event').addEventListener('click', async () => {
+            const selectedDate = selectedDateElement.textContent;
+            const description = document.getElementById('event-description').value;
+            const location = document.getElementById('event-location').value;
+            const time = document.getElementById('event-time').value;
+            const details = document.getElementById('event-details').value;
+
+            if (selectedDate === 'Nenhuma') {
+                alert('Por favor, selecione uma data.');
+                return;
+            }
+
+            // Formata a data para YYYY-MM-DD
+            const formattedDate = new Date(selectedDate).toISOString().split('T')[0];
+
+            const eventData = {
+                data_evento: formattedDate,
+                nome_evento: description,
+                local_evento: location,
+                horario_evento: time,
+                descricao_evento: details,
+            };
+
+            try {
+                const response = await fetch('/adicionarEvento', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(eventData),
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert(result.message);
+                    // Limpa os campos após adicionar o evento
+                    document.getElementById('event-description').value = '';
+                    document.getElementById('event-location').value = '';
+                    document.getElementById('event-time').value = '';
+                    document.getElementById('event-details').value = '';
+                    selectedDateElement.textContent = 'Nenhuma';
+                } else {
+                    const error = await response.json();
+                    alert(error.message || 'Erro ao adicionar evento.');
+                }
+            } catch (error) {
+                console.error('Erro ao enviar a requisição:', error);
+                alert('Erro ao adicionar evento. Tente novamente.');
+            }
+        });
+
+        renderCalendar(); // Renderiza o calendário ao carregar a página
+    </script>
+</body>
+</html>

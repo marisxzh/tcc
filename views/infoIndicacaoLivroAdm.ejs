@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Indicação</title>
+    <!-- Link para ícones do Font Awesome -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="icon" href="./img/favicon-32x32.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estilos gerais */
+        nav{
+            position: relative;
+            z-index: 1000;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #003366;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Container principal */
+        .container {
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 800px;
+            width: 90%;
+            color: black;
+            background-color: aliceblue;
+            border-radius: 10px;
+            box-sizing: border-box;
+            flex-grow: 1;
+        }
+
+        /* Títulos */
+        .container h2 {
+            color: #003366;
+            margin: 10px 0;
+            font-size: 20px;
+        }
+
+        .indicacao-detalhes,
+        .detalhes {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 10px;
+            background-color: #ffffff;
+        }
+
+        .indicacao-detalhes h3,
+        .detalhes h3 {
+            margin: 0;
+            color: #003366;
+        }
+
+        /* Botões de ação (voltar, negar, aprovar) */
+        .voltar-adicionar {
+            margin: 20px 10px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .voltar-link {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            background-color: #004080;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .voltar-link:hover {
+            background-color: #003366;
+            transform: scale(1.05);
+        }
+
+        .fa-arrow-left,
+        .fa-x,
+        .fa-check {
+            margin-right: 8px;
+        }
+
+        /* Estilos do footer */
+        footer {
+            text-align: center;
+            color: #000000;
+            font-size: 0.9em;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        /* Estilo do título da página */
+        .titulo h1 {
+            text-align: center;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .container h2 {
+                font-size: 18px;
+            }
+
+            .voltar-link {
+                font-size: 16px;
+                padding: 10px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            .container h2 {
+                font-size: 16px;
+            }
+
+            .voltar-adicionar {
+                flex-direction: column;
+            }
+
+            .voltar-link {
+                font-size: 14px;
+                padding: 8px 12px;
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Cabeçalho do site, incluindo a barra de navegação -->
+    <header>
+        <%- include('./navbar.ejs', { activePage: 'indicacaosAluno' }) %>
+    </header>
+
+    <div class="titulo">
+        <h1>Detalhes da indicação do livro</h1>
+    </div>
+
+    <!-- Detalhes do indicacao -->
+    <div class="container">
+        <h2>Título</h2>
+        <div class="indicacao-detalhes">
+            <h3>
+                <%= indicacao.titulo %>
+            </h3>
+        </div>
+
+        <h2>Autor</h2>
+        <div class="indicacao-detalhes">
+            <h3>
+                <%= indicacao.autor %>
+            </h3>
+        </div>
+
+        <h2>Gênero</h2>
+        <div class="indicacao-detalhes">
+            <h3>
+                <%= indicacao.genero %>
+            </h3>
+        </div>
+
+        <h2>Detalhes</h2>
+        <div class="indicacao-detalhes">
+            <h3>
+                <%= indicacao.descricao || 'Descrição não informada' %>
+            </h3>
+        </div>
+
+        <h2>Contribuinte que Recomendou</h2>
+        <div class="indicacao-detalhes">
+            <h3>
+                <%= indicacao.nome_usuario || 'Usuário não informado' %>
+            </h3>
+        </div>
+
+        <h2>Indicação</h2>
+        <div class="detalhes">
+            <h3>
+                <% if (indicacao.status_indicacao === 1) { %>
+                    Indicação Aceita
+                <% } else if (indicacao.status_indicacao === 2) { %>
+                    Indicação Rejeitada
+                <% } else { %>
+                    Indicação Pendente
+                <% } %>
+            </h3>
+        </div>
+
+        <!-- Ícone de seta para voltar -->
+        <div class="voltar-adicionar">
+            <% if (indicacao.status_indicacao == 0) { %>
+                <!-- Se o status for 0 (pendente), redireciona para a página de indicações pendentes -->
+                <a href="/indicacoesLivrosAdm" class="voltar-link">
+                    <i class="fa fa-arrow-left"></i> Voltar
+                </a>
+            <% } else { %>
+                <!-- Se o status for 1 (aceito) ou 2 (rejeitado), redireciona para a página geral de materiais -->
+                <a href="/livrosApuradosAdm" class="voltar-link">
+                    <i class="fa fa-arrow-left"></i> Voltar
+                </a>
+            <% } %>
+
+
+            <!-- Exibir botões "Negar" e "Aprovar" somente se a indicação estiver pendente -->
+            <% if (indicacao.status_indicacao === 0) { %>
+                <a href="/negarIndicacao/<%= indicacao.cod_indicacao %>" class="voltar-link">
+                    <i class="fa fa-x"></i> Negar
+                </a>
+                <a href="/aprovarIndicacao/<%= indicacao.cod_indicacao %>" class="voltar-link">
+                    <i class="fa fa-check"></i> Aprovar
+                </a>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Rodapé do site -->
+    <footer>
+        <%- include('./footer.ejs', { activePage: 'indicacaosAluno' }) %>
+    </footer>
+</body>
+
+</html>

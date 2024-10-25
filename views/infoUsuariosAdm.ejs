@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Usuário</title>
+    <link rel="icon" href="./img/favicon-32x32.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        html {
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #193361;
+            color: #ffffff;
+            padding: 0;
+            position: relative;
+            min-height: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Estilo para o botão de redirecionamento */
+        .top {
+            position: absolute;
+            top: 100px;
+            left: 20px;
+        }
+
+        .redirect-button {
+            display: block;
+            margin-top: 40px;
+            margin-left: 230px;
+            padding: 10px 20px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 30px;
+            font-weight: bold;
+            background-color: #193361;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+        }
+
+        .redirect-button:hover {
+            background-color: #1e3f77;
+            border-color: #1e3f77;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Novo contêiner para ajustar o espaço à esquerda */
+        .left-margin-container {
+            margin-left: 100px;
+            padding: 20px;
+            background-color: #193361;
+            border-radius: 8px;
+        }
+
+        /* Estilo para o formulário */
+        form {
+            background-color: #193361;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-container {
+            margin-top: 150px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .form-column {
+            width: 45%;
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .form-field {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .form-field:last-child {
+            margin-right: 0;
+        }
+
+        .form-column label {
+            display: block;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .form-column input,
+        .form-column select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ffffff;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: #ffffff;
+            color: #000000;
+            box-sizing: border-box;
+        }
+
+        /* Estilo para os botões */
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .form-actions button {
+            padding: 10px 30px;
+            border: none;
+            border-radius: 4px;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #333333;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .form-actions .save-button {
+            background-color: #193361; /* Verde para salvar */
+        }
+
+        .form-actions .delete-button {
+            background-color: #2d4e88; /* Vermelho para deletar */
+        }
+
+        .form-actions button:hover {
+            background-color: #ffffff;
+            color: #193361;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <%- include('./navbar.ejs', { activePage: 'infoUsuarioAdm' }) %>
+        </div>
+
+        <div class="top">
+            <a class="redirect-button">Informações do usuário</a>
+        </div>
+
+        <div class="left-margin-container">
+            <form id="infoUsuario" method="post" action="/editarUsuarioAdm/<%= usuario.cod_usuario %>">
+                <div class="form-container">
+                    <div class="form-column">
+                        <!-- Campo para mostrar a foto do usuário -->
+                        <label for="foto">Foto do Usuário:</label>
+                        <div class="foto-container">
+                            <% if (foto_perfil) { %>
+                            <img id="fotoUsuario" src="data:image/jpeg;base64,<%= foto_perfil %>" alt="Foto do Usuário"
+                                style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;" />
+                            <% } else { %>
+                            <p>Não há foto de usuário disponível.</p>
+                            <% } %>
+                        </div>
+
+                        <label for="nome">Nome:</label>
+                        <input type="text" id="nome" name="nome" value="<%= usuario.nome %>" required>
+
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="cpf">CPF:</label>
+                                <input type="number" id="cpf" name="cpf" value="<%= usuario.cpf %>">
+                            </div>
+                            <div class="form-field">
+                                <label for="celular">Telefone:</label>
+                                <input type="number" id="celular" name="celular" value="<%= usuario.celular %>">
+                            </div>
+                        </div>
+
+                        <label for="email">E-mail:</label>
+                        <input type="email" id="email" name="email" value="<%= usuario.email %>">
+
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="cidade">Cidade:</label>
+                                <input type="text" id="cidade" name="cidade" value="<%= usuario.cidade %>">
+                            </div>
+                            <div class="form-field">
+                                <label for="bairro">Bairro:</label>
+                                <input type="text" id="bairro" name="bairro" value="<%= usuario.bairro %>">
+                            </div>
+                        </div>
+
+                        <label for="rua">Rua:</label>
+                        <input type="text" id="rua" name="rua" value="<%= usuario.rua %>">
+
+                        <label for="complemento">Complemento:</label>
+                        <input type="text" id="complemento" name="complemento" value="<%= usuario.complemento %>">
+
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="numero">Número:</label>
+                                <input type="text" id="numero" name="numero" value="<%= usuario.numero %>">
+                            </div>
+                            <div class="form-field">
+                                <label for="cep">CEP:</label>
+                                <input type="text" id="cep" name="cep" value="<%= usuario.cep %>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-column">
+                        <label for="turma">Turma:</label>
+                        <select id="turma" class="form-control" name="turma" required>
+                            <% turmas.forEach((turma) => { %>
+                            <option value="<%= turma.cod_turma %>" <%= turma.cod_turma === usuario.cod_turma ? 'selected' : '' %>>
+                                <%= turma.nome_turma %>
+                            </option>
+                            <% }); %>
+                        </select>
+
+                        <label for="camiseta">Camiseta:</label>
+                        <select id="camiseta" class="form-control" name="camiseta" required>
+                            <% camisetas.forEach((camiseta) => { %>
+                            <option value="<%= camiseta.cod_camiseta %>" <%= camiseta.cod_camiseta === usuario.cod_camiseta ? 'selected' : '' %>>
+                                <%= camiseta.modelo_camiseta %>
+                            </option>
+                            <% }); %>
+                        </select>
+
+                        <label for="senha">Senha inicial:</label>
+                        <input type="text" id="senha" name="senha" value="<%= usuario.senha %>">
+
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="data_inscricao">Data Inscrição:</label>
+                                <input type="date" id="data_inscricao" name="data_inscricao" value="<%= data_inscricao %>">
+                            </div>
+                            <div class="form-field">
+                                <label for="cargo">Cargo:</label>
+                                <select id="cargo" class="form-control" name="cargo" required>
+                                    <% cargos.forEach((cargo) => { %>
+                                    <option value="<%= cargo.cod_cargo %>" <%= cargo.cod_cargo === usuario.cod_cargo ? 'selected' : '' %>>
+                                        <%= cargo.nome_cargo %>
+                                    </option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn save-button" onclick="submitForm('/editarUsuarioAdm/<%= usuario.cod_usuario %>')">Salvar</button>
+                    <button type="button" class="btn delete-button" onclick="submitForm('/excluirUsuarioAdm/:cod_usuario')">Excluir</button>
+                </div>
+            </form>
+        </div>
+
+        <script>
+            function submitForm(actionUrl) {
+                var form = document.getElementById('infoUsuario');
+                form.action = actionUrl;
+                form.submit();
+            }
+        </script>
+
+    </div>
+
+    <footer>
+        <%- include('./footer.ejs', { activePage: 'infoUsuarioAdm' }) %>
+    </footer>
+</body>
+
+</html>

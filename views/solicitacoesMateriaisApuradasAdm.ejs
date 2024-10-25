@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>solicitacaos Apurados</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="icon" href="./img/favicon-32x32.png" type="image/x-icon">
+    <style>
+        /* Add your existing styles here */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #003366;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            min-height: calc(100vh - 60px);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .titulo {
+            border-bottom: 3px solid white;
+            margin-bottom: 20px;
+            padding: 24px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .titulo h1 {
+            margin: 0;
+            font-weight: bold;
+            font-size: 36px;
+        }
+
+        .botao-solicitacao-pesquisa {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .adicionar-solicitacao {
+            height: 50px;
+            font-size: 20px;
+            padding: 2px 20px;
+            background: none;
+            color: #fff;
+            border-radius: 10px;
+            border: 2px solid #ffffff;
+            transition: 0.6s;
+            margin-bottom: 10px;
+        }
+
+        .adicionar-solicitacao:hover {
+            background-color: #2d3f52;
+            color: #fff;
+            border: 2px solid white;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .search-bar input {
+            padding: 25px;
+            border-radius: 5px 0 0 5px;
+            border: none;
+            width: 200px;
+            height: 30px;
+            font-size: 16px;
+        }
+
+        .search-icon-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: rgb(151, 151, 151);
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+        }
+
+        .search-icon-box i {
+            color: #ffffff;
+        }
+
+        .search-icon-box:hover {
+            background-color: rgb(94, 94, 94);
+        }
+
+        .lista-solicitacao {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            color: #003366;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .titulo-solicitacao {
+            font-weight: bold;
+            font-size: 18px;
+            flex: 1;
+        }
+
+        .solicitacao-item {
+            flex: 1;
+        }
+
+        .botao-ver {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .botao-ver:hover {
+            background-color: #002244;
+        }
+
+        .sem-resultados {
+            text-align: center;
+            color: #ffffff;
+        }
+
+        /* Media Queries */
+        @media (min-width: 768px) {
+            .botao-solicitacao-pesquisa {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <%- include('./navbar.ejs', { activePage: 'indicacoessolicitacaoAdm' }) %>
+    </header>
+
+    <main class="container">
+        <div class="titulo">
+            <h1>solicitacaos Apurados</h1>
+        </div>
+
+        <div class="botao-solicitacao-pesquisa">
+            <form action="/solicitacoesMateriaisAdm" method="GET">
+                <button class="adicionar-solicitacao" id="adicionar-solicitacao">Solicitações</button>
+            </form>
+            <form action="/pesquisarSolicitacaoApuracaoAdm" method="GET">
+                <div class="search-bar">
+                    <input type="text" id="search-input" name="pesquisarMaterial" placeholder="Pesquisar">
+                    <button type="submit" class="search-icon-box">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <% if (solicitacao.length === 0) { %>
+            <div class="sem-resultados">
+                <p>Nenhuma indicação apurada encontrada.</p>
+            </div>
+        <% } else { %>
+            <% solicitacao.forEach(solicitacao => { 
+                if (solicitacao.status_solicitacao === 1 || solicitacao.status_solicitacao === 2) { // Exibir apenas indicações apuradas %>
+                    <div class="lista-solicitacao">
+                        <span class="titulo-solicitacao">
+                            <%= solicitacao.nome_material %>
+                        </span>
+                        <div class="solicitacao-item">
+                            <span class="solicitacao-details">
+                                Status: <%= solicitacao.status_solicitacao === 1 ? 'Aprovado' : 'Rejeitado' %>
+                            </span>
+                        </div>
+                        <form action="/infoSolicitacaoMaterialAdm" method="GET">
+                            <input type="hidden" name="codSolicitacaoMaterial" value="<%= solicitacao.cod_material %>">
+                            <button class="botao-ver" type="submit">Ver</button>
+                        </form>
+                    </div>
+            <% 
+                } // Fechamento do if
+            }); // Fechamento do forEach
+            %>
+        <% } // Fechamento do if/else %>
+    </main>
+
+    <footer>
+        <%- include('./footer.ejs', { activePage: 'indicacoessolicitacaoAdm' }) %>
+    </footer>
+</body>
+
+</html>

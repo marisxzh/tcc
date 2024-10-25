@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./img/favicon-32x32.png" type="image/x-icon">
+    <title>Perfil</title>
+    <style>
+        /* Estilos gerais */
+        nav{
+            position: relative;
+            z-index: 1000;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: "Roboto", sans-serif;
+            background-image: linear-gradient(rgba(0, 13, 56, 0.5), rgba(0, 13, 56, 0.5)), url('./img/foto_fundo.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            box-sizing: border-box;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .welcome-title {
+            padding: 20px;
+            border-bottom: 3px solid white;
+            font-size: 20px;
+            text-align: center;
+            color: #fff;
+            font-weight: bold;
+            margin-left: 400px;
+            margin-right: 400px;
+        }
+
+        nav {
+            position: relative;
+            z-index: 1000;
+        }
+
+        /* Estilo do container principal */
+        .conteudo-principal {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container-perfil {
+            background-color: #F0F8FF;
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .container-perfil img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 1px solid #003366;
+            object-fit: cover;
+        }
+
+        .container-perfil h2 {
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .botoes {
+            display: flex;
+            flex-direction: row;
+            gap: 15px;
+            /* Espaçamento entre os botões */
+            margin-top: 25px;
+        }
+
+        .botoes button {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 17px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            /* Botões ocupam toda a largura disponível */
+            max-width: 200px;
+            /* Limitar a largura dos botões */
+            margin: 0 auto;
+            /* Centraliza os botões */
+        }
+
+        .botoes button:hover {
+            background-color: #00254b;
+        }
+
+        /* Estilos do modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            /* Tornar o fundo mais escuro */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+            /* Ampliar o tamanho máximo */
+            text-align: left;
+            /* Alinhar o conteúdo à esquerda */
+            animation: fadeIn 0.3s ease-in-out;
+            /* Adicionar animação */
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            text-align: center;
+            font-size: 24px;
+            color: #003366;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .modal-content p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #555;
+            /* Texto mais suave */
+            line-height: 1.5;
+        }
+
+        .modal-content p strong {
+            color: #003366;
+            /* Deixar os rótulos das informações em azul */
+        }
+
+        .close-btn {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto 0;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background-color: #00254b;
+        }
+
+        /* Animação para o modal */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsividade */
+        @media (max-width: 600px) {
+            .container-perfil {
+                padding: 20px;
+            }
+
+            .container-perfil img {
+                width: 150px;
+                height: 150px;
+            }
+
+            .botoes {
+                flex-direction: column;
+            }
+
+            .botoes button {
+                max-width: 90%;
+                /* Botões ocupam 90% da largura em telas menores */
+            }
+
+            .container-perfil {
+                background-color: #F0F8FF;
+                width: 90%;
+                max-width: 500px;
+                padding: 40px;
+                border-radius: 15px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                text-align: center;
+            }
+
+            .modal-content {
+                background-color: #ffffff;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+                width: 90%;
+                max-width: 600px;
+                /* Ampliar o tamanho máximo */
+                text-align: left;
+                /* Alinhar o conteúdo à esquerda */
+                animation: fadeIn 0.3s ease-in-out;
+                /* Adicionar animação */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <%- include('./navbarAluno.ejs', { activePage: 'perfilAluno' }) %>
+    </header>
+    <div class="welcome-title">
+        <h1>Perfil</h1>
+    </div>
+    <div class="conteudo-principal">
+        <div class="container-perfil">
+            <img id="imgUserProfile" src="<%= foto_perfil %>" alt="Imagem de Perfil"
+                style="display: block; margin: 10px auto; width: 200px; height: 200px; border-radius: 50%; object-fit: cover;">
+            <h2>
+                <%= nome %>
+            </h2>
+
+            <div class="botoes">
+                <button id="btnMinhasInfo">Minhas Informações</button>
+                <button id="btnEditarPerfil">Editar Foto</button>
+                <button id="btnSairConta">Sair da conta</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para mostrar informações -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <h2>Minhas Informações</h2>
+            <p><strong>CPF:</strong>
+                <%= usuario.cpf %>
+            </p>
+            <p><strong>Celular:</strong>
+                <%= usuario.celular %>
+            </p>
+            <p><strong>Email:</strong>
+                <%= usuario.email %>
+            </p>
+            <p><strong>Rua:</strong>
+                <%= usuario.rua %>
+            </p>
+            <p><strong>CEP:</strong>
+                <%= usuario.cep %>
+            </p>
+            <p><strong>Bairro:</strong>
+                <%= usuario.bairro %>
+            </p>
+            <p><strong>Cidade:</strong>
+                <%= usuario.cidade %>
+            </p>
+            <p><strong>Número:</strong>
+                <%= usuario.numero %>
+            </p>
+            <p><strong>Complemento:</strong>
+                <%= usuario.complemento %>
+            </p>
+            <p><strong>Status:</strong>
+                <%= usuario.status_usuario %>
+            </p>
+            <p><strong>Data de Inscrição:</strong>
+                <%= formatDate(usuario.data_inscricao) %>
+            </p>
+            <p><strong>Data de Vencimento:</strong>
+                <%= formatDate(usuario.data_vencimento) %>
+            </p>
+            <button class="close-btn" id="closeInfoModal">Fechar</button>
+        </div>
+    </div>
+
+    <!-- Modal para editar perfil -->
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <h2>Editar Perfil</h2>
+            <form id="editProfileForm" action="/editarPerfil" method="post" enctype="multipart/form-data">
+                <label for="profilePicInput">Foto de Perfil:</label>
+                <input type="file" id="profilePicInput" name="profilePic" accept="image/*">
+                <img id="profilePicPreview" src="<%= foto_perfil %>" alt="Prévia da nova foto"
+                    style="display: block; margin: 10px auto; width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
+                <button type="button" class="close-btn" id="closeEditProfileModal">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <%- include('./footer.ejs', { activePage: 'perfilAluno' }) %>
+    </footer>
+
+    <script>
+        // Selecionar elementos
+        const infoBtn = document.getElementById('btnMinhasInfo');
+        const infoModal = document.getElementById('infoModal');
+        const closeInfoModal = document.getElementById('closeInfoModal');
+        const editProfileBtn = document.getElementById('btnEditarPerfil');
+        const editProfileModal = document.getElementById('editProfileModal');
+        const closeEditProfileModal = document.getElementById('closeEditProfileModal');
+        const profilePicInput = document.getElementById('profilePicInput');
+        const profilePicPreview = document.getElementById('profilePicPreview');
+        const logoutBtn = document.getElementById('btnSairConta');
+
+        // Tamanho máximo permitido: 700 KB
+        const maxFileSize = 700 * 1024; // 700 KB em bytes
+
+        // Mostrar o modal de "Minhas Informações"
+        infoBtn.addEventListener('click', () => {
+            infoModal.style.display = 'flex';
+        });
+
+        // Fechar o modal de "Minhas Informações"
+        closeInfoModal.addEventListener('click', () => {
+            infoModal.style.display = 'none';
+        });
+
+        // Mostrar o modal de "Editar Perfil"
+        editProfileBtn.addEventListener('click', () => {
+            editProfileModal.style.display = 'flex';
+        });
+
+        // Fechar o modal de "Editar Perfil" e salvar as alterações
+        closeEditProfileModal.addEventListener('click', () => {
+            const form = document.getElementById('editProfileForm');
+            if (!profilePicInput.files[0]) {
+                alert("Nenhuma imagem foi selecionada.");
+            } else {
+                form.submit();
+                editProfileModal.style.display = 'none';
+            }
+        });
+
+        // Adicionar evento de clique para o botão "Sair"
+        logoutBtn.addEventListener('click', () => {
+            window.location.href = '/sair'; // Redireciona para a página de logout
+        });
+
+        // Fechar o modal se o usuário clicar fora dele
+        window.addEventListener('click', (event) => {
+            if (event.target === infoModal) {
+                infoModal.style.display = 'none';
+            } else if (event.target === editProfileModal) {
+                editProfileModal.style.display = 'none';
+            }
+        });
+
+        // Mostrar a pré-visualização da nova foto de perfil e validar tamanho
+        profilePicInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+
+            if (!file) {
+                alert("Nenhuma imagem foi selecionada.");
+                return; // Não continua se não tiver imagem
+            }
+
+            if (file.size > maxFileSize) {
+                alert("A imagem selecionada ultrapassa o limite de 300 KB.");
+                profilePicInput.value = ""; // Limpa o campo para forçar uma nova seleção
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                profilePicPreview.src = e.target.result; // Atualiza a imagem de pré-visualização
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Verifica se há uma mensagem de erro na URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+
+        // Se houver uma mensagem de erro, exibe um alerta
+        if (error) {
+            alert(error);
+        }
+    </script>
+    <% function formatDate(date) { var d=new Date(date); var day=('0' + d.getDate()).slice(-2); var month=('0' +
+        (d.getMonth() + 1)).slice(-2); var year=d.getFullYear(); return day + '/' + month + '/' + year; } %>
+</body>
+
+</html>
