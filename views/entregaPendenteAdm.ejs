@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Entregas Pendentes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="icon" href="./img/favicon-32x32.png" type="image/x-icon">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #193361;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            min-height: calc(100vh - 60px);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .titulo {
+
+            font-weight: bold;
+            font-size: 36px;
+            padding: 20px;
+            border-bottom: 3px solid white;
+            text-align: center;
+            color: #fff;
+            max-width: 100%;
+
+
+        }
+
+        .titulo h1 {
+            margin: 0;
+            font-weight: bold;
+            font-size: 36px;
+        }
+
+        .search-bar {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            /* Alinha a barra de pesquisa à direita */
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            /* Permite que os itens se movam para a linha abaixo em telas menores */
+        }
+
+        .search-bar input {
+            padding: 16px;
+            border-radius: 5px 0 0 5px;
+            border: none;
+            width: 200px;
+            font-size: 16px;
+        }
+
+        .search-icon-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: rgb(151, 151, 151);
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+        }
+
+        .search-icon-box i {
+            color: #ffffff;
+        }
+
+        .search-icon-box:hover {
+            background-color: rgb(94, 94, 94);
+        }
+
+        .lista-camiseta {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            color: #003366;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .titulo-camiseta {
+            font-weight: bold;
+            font-size: 18px;
+            flex: 1;
+        }
+
+        .botao-ver {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .botao-ver:hover {
+            background-color: #002244;
+        }
+
+        .sem-resultados {
+            text-align: center;
+            color: #ffffff;
+        }
+
+        @media (max-width: 768px) {
+            .search-bar {
+                justify-content: center;
+                /* Centraliza a barra de pesquisa em telas menores */
+            }
+
+            .search-bar input {
+                width: calc(100% - 50px);
+                /* Ajusta a largura do campo de pesquisa */
+                font-size: 14px;
+            }
+
+            .search-icon-box {
+                width: 50px;
+                /* Largura fixa para o botão */
+                height: 50px;
+                /* Altura fixa para o botão */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .titulo {
+                font-size: 28px;
+            }
+
+            .search-bar input {
+                font-size: 14px;
+            }
+
+            .botao-ver {
+                padding: 8px 16px;
+                /* Ajusta o tamanho do botão em telas menores */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <%- include('./navbar.ejs', { activePage: 'entregaPendenteAdm' }) %>
+    </header>
+    <div class="container">
+        <div class="titulo">
+            <h1>Entregas Pendentes</h1>
+        </div>
+
+        <form action="/pesquisarEntregaPendenteAdm" method="GET">
+            <div class="search-bar">
+                <input type="text" id="search-input" name="pesquisa" placeholder="Pesquisar">
+                <button type="submit" class="search-icon-box">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+
+        <div class="list-group">
+            <% entrega.forEach((entrega)=> { %>
+                <div class="lista-camiseta">
+                    <span class="titulo-camiseta">
+                        <%= entrega.nome %>
+                    </span>
+                    <form action="/infoEntregaPendenteAdm" method="GET">
+                        <input type="hidden" name="cod_entrega" value="<%= entrega.cod_entrega %>">
+                        <button class="botao-ver" type="submit">Detalhes</button>
+                    </form>
+                </div>
+                <% }); %>
+                    <% if (entrega.length===0) { %>
+                        <div class="sem-resultados">
+                            <p>Nenhuma entrega encontrada.</p>
+                        </div>
+                        <% } %>
+        </div>
+    </div>
+</body>
+
+<footer>
+    <%- include('./footer.ejs', { activePage: 'entregaPendenteAdm' }) %>
+</footer>
+
+</html>
