@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Navbar Responsiva com Animação</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">
+                <img src="./img/aapm_logo_cortada.png" alt="Logo">
+            </div>
+            <button class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-list">
+                <li><a class="nav-item <%= activePage === 'pagInicialAdm' ? 'active' : '' %>" href="/pagInicialAdm">Home</a></li>
+                <li><a class="nav-item <%= activePage === 'armario' ? 'active' : '' %>" href="/armarioAdm">Armários</a></li>
+                <li><a class="nav-item <%= activePage === 'eventos' ? 'active' : '' %>" href="/eventosAdm">Eventos</a></li>
+                <li><a class="nav-item <%= activePage === 'eletrodomestico' ? 'active' : '' %>" href="/solicitacoesAdm">Solicitações</a></li>
+                <li><a class="nav-item <%= activePage === 'eletrodomestico' ? 'active' : '' %>" href="/indicacaoAdm">Indicações</a></li>
+                <li><a class="nav-item <%= activePage === 'usuario' ? 'active' : '' %>" href="/usuariosAdm">Usuários</a></li>
+                <li><a class="nav-item <%= activePage === 'estoque' ? 'active' : '' %>" href="/entregaAdm">Entregas de Camisetas</a></li>
+                <li><a class="nav-item <%= activePage === 'material' ? 'active' : '' %>" href="/acervoAdm">Acervo</a></li>
+                <li><a class="nav-item <%= activePage === 'ocorrencia' ? 'active' : '' %>" href="/ocorrenciaAdm">Ocorrências</a></li>
+                <li><a class="nav-item <%= activePage === 'trocarSenha' ? 'active' : '' %>" href="/perfilAdm">Perfil</a></li>
+                <li><a class="nav-item <%= activePage === 'sair' ? 'active' : '' %>" href="/sair">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="hero"></main>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .header {
+            background-color: #ffffff;
+            padding-inline: 16px;
+            position: fixed;
+            width: 100%;
+            z-index: 10;
+            top: 0;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            padding: 0 20px;
+            background-color: white;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .nav-list {
+            display: flex;
+            gap: 15px;
+            list-style: none;
+        }
+
+        .nav-list a {
+            color: #000000;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .nav-list a:hover {
+            background: #0773ee;
+            color: #ffffff;
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            z-index: 11;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 30px;
+            height: 3px;
+            background: #000;
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        /* Estilos para transformar o hambúrguer em "X" */
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        
+        }
+
+        /* Responsivo */
+        @media (max-width: 1640px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-list {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background-color: #ffffff;
+                clip-path: circle(100px at 90% -15%);
+                transition: clip-path 1.5s ease;
+                flex-direction: column;
+                justify-content: space-around;
+                align-items: center;
+                gap: 15px;
+                overflow-y: auto; /* Adiciona rolagem vertical */
+                pointer-events: none;
+            }
+
+            .nav-list a {
+                font-size: 24px;
+                color: #000000;
+                opacity: 0;
+                transition: opacity 0.5s ease;
+            }
+
+            /* Animação de bolha */
+            .nav.active .nav-list {
+                clip-path: circle(1500px at 90% -15%);
+                pointer-events: all;
+            }
+
+            .nav.active .nav-list a {
+                opacity: 1;
+            }
+        }
+
+        /* Corrige o espaçamento do conteúdo principal */
+        .hero {
+            margin-top: 100px;
+        }
+    </style>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('.nav');
+            const hamburger = document.querySelector('.hamburger');
+            nav.classList.toggle('active');
+            hamburger.classList.toggle('active'); // Ativa o estilo do "X"
+        }
+    </script>
+</body>
+</html>
