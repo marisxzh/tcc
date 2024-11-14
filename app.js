@@ -63,13 +63,13 @@ queueLimit: 0
 // });
 
 // VERIFICA SE A CONEXÃO FOI REALIZADA COM SUCESSO
-db.connect((error) => {
-    if (error) {
-        console.error('Erro ao conectar ao MySQL:', error);
-    } else {
-        console.log("Conectado ao MySQL!");
-    }
-});
+// db.connect((error) => {
+//     if (error) {
+//         console.error('Erro ao conectar ao MySQL:', error);
+//     } else {
+//         console.log("Conectado ao MySQL!");
+//     }
+// });
 
   // INICIALIZA O SERVIDOR NODE.JS
 //   app.listen(port, () => {
