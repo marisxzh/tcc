@@ -6,7 +6,7 @@ const ejs = require('ejs');
 const path = require('path');
 const session = require('express-session');
 const app = express();
-const port = 3000;
+
 
 // Atualizar o storage do multer para garantir que estamos tratando o arquivo como imagem
 // const storage = multer.memoryStorage(); // Usando memoryStorage
@@ -39,7 +39,22 @@ app.set('views', path.join(__dirname, 'views'));
 
 // CONEXOES
 
-// // CRIA CONEXÃO COM O BANCO DE DADOS
+const port = process.env.PORT || 3001;
+
+
+const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
+const db = mysql.createPool({
+host: process.env.DB_HOST,
+user: process.env.DB_USERNAME,
+password: process.env.DB_PASSWORD,
+database: process.env.DB_DBNAME,
+waitForConnections: true,
+connectionLimit: 10,
+queueLimit: 0
+});
+
+// CRIA CONEXÃO COM O BANCO DE DADOS
 // const db = mysql.createConnection({
 //     host: 'localhost',
 //     user: 'root',
@@ -47,30 +62,23 @@ app.set('views', path.join(__dirname, 'views'));
 //     database: 'aapm'
 // });
 
-// // VERIFICA SE A CONEXÃO FOI REALIZADA COM SUCESSO
-// db.connect((error) => {
-//     if (error) {
-//         console.error('Erro ao conectar ao MySQL:', error);
-//     } else {
-//         console.log("Conectado ao MySQL!");
-//     }
-// });
+// VERIFICA SE A CONEXÃO FOI REALIZADA COM SUCESSO
+db.connect((error) => {
+    if (error) {
+        console.error('Erro ao conectar ao MySQL:', error);
+    } else {
+        console.log("Conectado ao MySQL!");
+    }
+});
 
-//   // INICIALIZA O SERVIDOR NODE.JS
+  // INICIALIZA O SERVIDOR NODE.JS
 //   app.listen(port, () => {
 //     console.log(`Servidor iniciado em http://localhost:${port}`);
 // });
 
 
-const db = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DBNAME,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
-    });
+
+
 
 
 // SESSAO DO USUARIO
@@ -419,7 +427,7 @@ app.get('/ocorrenciasAluno', (req, res) => {
 
 // PERFIL ALUNO PERFIL_ALUNO
 
-// // ROTA PARA EXIBIR O PERFIL (agora chamada de "trocasenha")
+// ROTA PARA EXIBIR O PERFIL (agora chamada de "trocasenha")
 // app.get('/perfilAluno', (req, res) => {
 
 //     const cod_usuario = req.session.cod_usuario;
@@ -435,7 +443,7 @@ app.get('/ocorrenciasAluno', (req, res) => {
 //         } else {
 //             if (results.length > 0) {
 //                 const usuario = results[0];
-//                 // const foto_perfil = usuario.foto_perfil ? `data:image/jpg;base64,${usuario.foto_perfil.toString('base64')}` : '/img/init.jpg';
+//                 const foto_perfil = usuario.foto_perfil ? `data:image/jpg;base64,${usuario.foto_perfil.toString('base64')}` : '/img/init.jpg';
 
 //                 // Passa o objeto `usuario` (o primeiro resultado) para a view
 //                 res.render('perfilAluno', { usuario: usuario, foto_perfil: foto_perfil });
@@ -446,7 +454,7 @@ app.get('/ocorrenciasAluno', (req, res) => {
 //     });
 // });
 
-// // // EDITAR FOTO DE PERFIL
+// // EDITAR FOTO DE PERFIL
 // app.post('/editarPerfil', upload.single('profilePic'), (req, res) => {
 
 //     if (!req.session.cod_usuario) {
@@ -1857,7 +1865,7 @@ app.get(['/ocorrenciaAdm'], (req, res) => {
 
 //PERFIL ADM PERFIL_ADM
 
-// // // ROTA PARA EXIBIR O PERFIL DO ADM - ADM
+// // ROTA PARA EXIBIR O PERFIL DO ADM - ADM
 // app.get('/perfilAdm', (req, res) => {
 
 //     const cod_usuario = req.session.cod_usuario;
@@ -1884,7 +1892,7 @@ app.get(['/ocorrenciaAdm'], (req, res) => {
 //     });
 // });
 
-// // // EDITAR PERFIL - ADM
+// // EDITAR PERFIL - ADM
 // app.post('/editarPerfilAdm', upload.single('profilePic'), (req, res) => {
 //     if (!req.session.cod_usuario) {
 //         return res.redirect('/'); // REDIRECIONA PARA O LOGIN SE NÃO ESTIVER AUTENTICADO
@@ -1993,7 +2001,7 @@ app.get('/infoUsuariosAdm', (req, res) => {
                                     turmas: listaTurmas,
                                     camisetas: listaCamisetas,
                                     cargos: listaCargos,
-                                    data_inscricao
+                                    data_inscricao,
                                     // foto_perfil // Adicione aqui
                                 });
                             } else {
