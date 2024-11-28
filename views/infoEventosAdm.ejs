@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informações do Evento</title>
+    <link rel="icon" href="./img/favicon-32x32.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            flex-direction: column;
+            background-color: #193361;
+            color: white;
+        }
+
+        nav {
+            position: relative;
+            z-index: 1000;
+        }
+
+        .container {
+            margin: 20px auto;
+            padding: 20px;
+            color: black;
+            background-color: aliceblue;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .titulo {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .titulo h1 {
+            margin: 0;
+            color: #ffffff;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 20px;
+        }
+
+        .voltar-adicionar {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .voltar-link {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            background-color: #004080;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .voltar-link:hover {
+            background-color: #003366;
+            transform: scale(1.05);
+        }
+
+        .voltar-link[style*="background-color: #800000"] {
+           background-color: #004080;
+           background-color: #004080;
+        }
+
+        .voltar-link[style*="background-color: #800000"]:hover {
+          background-color: #004080;
+            transform: scale(1.05);
+        }
+
+        .fa-arrow-left,
+        .fa-save,
+        .fa-trash {
+            margin-right: 8px;
+        }
+
+        .container h2 {
+            color: #003366;
+            margin: 10px 0px 0px 10px;
+            font-size: 20px;
+        }
+
+        .indicacao-detalhes {
+            width: 100%;
+            border-radius: 10px;
+            background-color: #ffffff;
+            padding: 7px;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea,
+        select {
+            border: none;
+            width: calc(100% - 20px);
+            padding: 10px;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        footer {
+            text-align: center;
+            color: #333;
+            font-size: 0.9em;
+            width: 100%;
+            position: relative;
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            .voltar-link {
+                font-size: 16px;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .voltar-link {
+                font-size: 14px;
+                padding: 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .voltar-link {
+                font-size: 12px;
+                padding: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <%- include('./navbar.ejs', { activePage: 'infoEventosAdm' }) %>
+    </header>
+
+    <div class="titulo">
+        <h1>Informações do Evento</h1>
+    </div>
+
+    <div class="container">
+        <form action="/editarEventoAdm/<%= eventoSelecionado.cod_evento %>" method="post" id="eventoForm">
+            <div class="form-container">
+                <h2>Nome do Evento:</h2>
+                <div class="indicacao-detalhes">
+                    <input type="text" name="nome_evento" id="nome_evento" placeholder="Nome do evento" value="<%= eventoSelecionado.nome_evento %>" required>
+                </div>
+
+                <h2>Descrição:</h2>
+                <div class="indicacao-detalhes">
+                    <input type="text" name="descricao_evento" id="descricao" placeholder="Descrição do evento" value="<%= eventoSelecionado.descricao_evento %>" required>
+                </div>
+
+                <h2>Data:</h2>
+                <div class="indicacao-detalhes">
+                    <input type="date" name="data_evento" id="data_ocorrencia" value="<%= formatDate(eventoSelecionado.data_evento) %>" required>
+                </div>
+
+                <h2>Horario:</h2>
+                <div class="indicacao-detalhes">
+                    <input type="time" name="horario_evento" id="horario_ocorrencia" value="<%= eventoSelecionado.horario_evento %>" required>
+                </div>
+
+                <h2>Local:</h2>
+                <div class="indicacao-detalhes">
+                    <input type="text" name="local_evento" id="local_evento" placeholder="Local do evento" value="<%= eventoSelecionado.local_evento %>" required>
+                </div>
+
+                <div class="voltar-adicionar">
+                    <div class="buttons">
+                        <!-- Botão para voltar -->
+                        <a href="/eventosAdm" class="voltar-link">
+                            <i class="fa fa-arrow-left"></i> Voltar
+                        </a>
+
+                        <!-- Botão para salvar -->
+                        <button type="submit" form="eventoForm" class="voltar-link">
+                            <i class="fa fa-save"></i> Salvar
+                        </button>
+
+                        <!-- Botão para excluir -->
+                        <form action="/excluirEventoAdm/<%= eventoSelecionado.cod_evento %>" method="post" style="display: inline;">
+                            <button type="submit" class="voltar-link" style="   background-color: #004080;">
+                                <i class="fa fa-trash"></i> Excluir
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        <%- include('./footer.ejs', { activePage: 'infoEventosAdm' }) %>
+    </footer>
+
+    <% function formatDate(date) { 
+        var d = new Date(date); 
+        var year = d.getFullYear(); 
+        var month = ('0' + (d.getMonth() + 1)).slice(-2); 
+        var day = ('0' + d.getDate()).slice(-2); 
+        return year + '-' + month + '-' + day; 
+    } %>
+</body>
+</html>

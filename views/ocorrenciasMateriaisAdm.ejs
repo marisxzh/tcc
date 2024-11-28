@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ocorrências Material</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="icon" href="./img/favicon-32x32.png" type="image/x-icon">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #193361;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            min-height: calc(100vh - 60px);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 70px;
+            z-index: 1;
+        }
+
+        .titulo {
+          
+          margin: 20px auto;
+          font-weight: bold;
+          font-size: 36px;
+          padding: 20px;
+          border-bottom: 3px solid white;
+          text-align: center;
+          color: #fff;
+          max-width: 100%;
+      
+      
+              }
+      
+              .titulo h1 {
+                  margin: 0;
+                  font-weight: bold;
+                  font-size: 36px;
+              }
+
+        .botao-indicacao-pesquisa {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+
+        .adicionar-usuario {
+            height: 50px;
+            font-size: 20px;
+            padding: 2px 20px;
+            background: none;
+            color: #fff;
+            border-radius: 10px;
+            border: 2px solid #ffffff;
+            transition: 0.6s;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .adicionar-usuario:hover {
+            background-color: #2d3f52;
+            color: #fff;
+            border: 2px solid white;
+        }
+
+        .barra-pesquisa {
+            display: flex;
+            align-items: center;
+        }
+
+        .barra-pesquisa input {
+            padding: 25px;
+            border-radius: 5px 0 0 5px;
+            border: none;
+            width: 200px;
+            height: 30px;
+            font-size: 20px;
+        }
+
+        .caixa-icone-pesquisa {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: rgb(151, 151, 151);
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+        }
+
+        .caixa-icone-pesquisa i {
+            color: #ffffff;
+        }
+
+        .caixa-icone-pesquisa:hover {
+            background-color: rgb(94, 94, 94);
+        }
+
+
+        .lista-usuario {
+            margin-bottom: 10px;
+        }
+
+        .caixa-ocorrencia {
+            background-color: #ffffff; /* Cor de fundo */
+            color: #003366; /* Cor do texto */
+            padding: 15px; /* Espaçamento interno */
+            border-radius: 5px; /* Bordas arredondadas */
+            margin-bottom: 15px; /* Espaçamento entre as caixas */
+            display: flex; /* Adiciona flex */
+            justify-content: space-between; /* Alinha os itens com espaço entre */
+            align-items: center; /* Centraliza verticalmente */
+        }
+
+        .titulo-ocorrencia {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .botao-ver {
+    background-color: #003366;
+    color: white;
+    border: none;
+    padding: 8px 15px; /* Ajuste o padding aqui */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+}
+
+.botao-ver:hover {
+    background-color: #002244;
+}
+
+
+       
+
+        .sem-resultados {
+            text-align: center;
+            color: #ffffff;
+        }
+        @media (max-width: 768px) {
+            .botao-indicacao-pesquisa {
+                flex-direction: column;
+                margin-top: 20px;
+            }
+
+            .barra-pesquisa {
+                margin-top: 10px;
+            }
+
+            .adicionar-usuario {
+                width: 100%;
+            }
+
+            .barra-pesquisa input {
+                width: calc(100% - 50px);
+                font-size: 14px;
+            }
+
+            .lista-usuario {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .titulo h1 {
+                font-size: 28px;
+            }
+
+            .adicionar-usuario {
+                font-size: 16px;
+                padding: 5px 15px;
+            }
+
+            .barra-pesquisa input {
+                font-size: 14px;
+            }
+        }
+
+
+    
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <%- include('./navbar.ejs', { activePage: 'ocorrenciaMaterialAdm' }) %>
+    </header>
+
+    <div class="container">
+        <div class="titulo">
+            <h1>Ocorrências Material</h1>
+        </div>
+
+        <div class="botao-indicacao-pesquisa">
+            <form method="get" action="/adicionarOcorrenciaMaterialAdm">
+                <button type="submit" class="adicionar-usuario">Cadastrar ocorrência</button>
+            </form>
+            <form class="barra-pesquisa" method="get" action="/pesquisarOcorrenciaMaterialAdm">
+                <input class="form-control" name="pesquisa" type="search" placeholder="Pesquisar" aria-label="Search" />
+                <button class="caixa-icone-pesquisa">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="lista-usuario">
+            <% ocorrenciaMaterial.forEach((ocorrenciaMaterial) => { %>
+                <div class="caixa-ocorrencia">
+                    <div>
+                        <span class="titulo-ocorrencia"><%= ocorrenciaMaterial.nome_material %></span><br>
+                        <small>Status da ocorrência: 
+                            <%= ocorrenciaMaterial.status_ocorrencia === 0 ? 'Quebrado' : 
+                                ocorrenciaMaterial.status_ocorrencia === 1 ? 'Consertado' : 
+                                ocorrenciaMaterial.status_ocorrencia === 2 ? 'Em Manutenção' : 
+                                'Status Desconhecido' %>
+                        </small>
+                    </div>
+                    <a href="/infoOcorrenciaMaterialAdm?cod_ocorrencia=<%= ocorrenciaMaterial.cod_ocorrencia %>" class="botao-ver">Detalhes</a>
+                </div>
+            <% }); %>
+        </div>
+
+        <% if (ocorrenciaMaterial.length === 0) { %>
+        <div class="sem-resultados">
+            <p>Nenhuma ocorrência encontrada.</p>
+        </div>
+        <% } %>
+    </div>
+
+    <footer style="background-color: #193361; color: white; text-align: center; padding: 10px 0;">
+        <%- include('./footer.ejs', { activePage: 'ocorrenciaMaterialAdm' }) %>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informações do Patrimônio</title>
+    <link rel="icon" href="./img/favicon-32x32.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <%- include('./navbar.ejs', { activePage: 'infoPatrimonioAdm' }) %>
+    </header>
+    <div class="titulo">
+        <h1>Informações do Patrimônio</h1>
+    </div>
+    <div class="container">
+        <div class="form-container">
+            <form id="patrimonioForm" action="/editarPatrimonioAdm/<%= patrimonio.cod_patrimonio %>" method="post">
+                <h2>Patrimônio</h2>
+                <div class="indicacao-detalhes">
+                    <input type="text" name="nome_patrimonio" id="nome_patrimonio" placeholder="Nome do patrimônio"
+                        value="<%= patrimonio.nome_patrimonio %>" required>
+                </div>
+
+                <h2>Descrição</h2>
+                <div class="indicacao-detalhes">
+                    <input type="text" name="detalhe" id="detalhe" placeholder="Descrição do patrimônio"
+                        value="<%= patrimonio.detalhe_patrimonio %>" required>
+                </div>
+
+                <div class="voltar-adicionar">
+                    <a href="/patrimonioAdm" class="voltar-link">
+                        <i class="fa fa-arrow-left"></i> Voltar
+                    </a>
+                    <button type="submit" class="voltar-link">
+                        <i class="fa fa-save"></i> Salvar
+                    </button>
+                
+            </form>
+            <form action="/excluirPatrimonioAdm/<%= patrimonio.cod_patrimonio %>" method="post" class="excluir-form">
+                <button type="submit" class="voltar-link excluir">
+                    <i class="fa fa-trash-alt"></i> Excluir
+                </button>
+            </form>
+        </div>
+        </div>
+    </div>
+
+    <footer>
+        <%- include('./footer.ejs', { activePage: 'infoPatrimonioAdm' }) %>
+    </footer>
+</body>
+
+</html>
+
+<!-- Estilos para a página -->
+<style>
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+        display: flex;
+        flex-direction: column;
+    }
+
+    body {
+        background-color: #193361;
+        color: white;
+        flex: 1;
+    }
+
+    .container {
+        margin: 20px auto;
+        padding: 20px;
+        color: black;
+        background-color: aliceblue;
+        border-radius: 10px;
+        max-width: 600px;
+        width: 90%;
+    }
+
+    .titulo {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .titulo h1 {
+        margin: 0;
+        color: #ffffff;
+    }
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .voltar-adicionar {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .voltar-link {
+        text-decoration: none;
+        color: white;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #004080;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        border: 2px solid transparent;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .voltar-link:hover {
+        background-color: #003366;
+        transform: scale(1.05);
+    }
+
+    .voltar-link.excluir {
+        background-color: #004080;
+    }
+
+    .voltar-link.excluir:hover {
+        background-color: #003366;
+    }
+
+    .fa-arrow-left,
+    .fa-save {
+        margin-right: 8px;
+    }
+
+    nav {
+
+
+        position: relative;
+        z-index: 1000;
+    }
+
+    .container h2 {
+        color: #003366;
+        margin: 10px 0px 0px 10px;
+        font-size: 20px;
+    }
+
+    .indicacao-detalhes {
+        border-radius: 10px;
+        background-color: #ffffff;
+        padding: 10px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+        border: none;
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    textarea {
+        height: 100px;
+        resize: vertical;
+    }
+
+    footer {
+        padding: 0;
+        margin-top: auto;
+        text-align: center;
+        color: #333;
+        font-size: 0.9em;
+    }
+
+    /* Media queries para ajuste de tamanhos em telas menores */
+    @media (max-width: 768px) {
+        .voltar-link {
+            font-size: 16px;
+            padding: 8px 16px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .voltar-link {
+            font-size: 14px;
+            padding: 6px 12px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .voltar-link {
+            font-size: 12px;
+            padding: 5px 10px;
+        }
+    }
+</style>
